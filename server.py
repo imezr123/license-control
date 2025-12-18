@@ -1,5 +1,6 @@
-from flask import Flask, request, jsonify, render_template_string, redirect, url_for, session
+from flask import Flask, request, jsonify, render_template_string, redirect, session
 import time
+import os
 
 app = Flask(__name__)
 app.secret_key = "SUPER_SECRET_KEY_123"   # change later
@@ -61,7 +62,6 @@ table { width:100%; border-collapse:collapse; }
 th,td { border:1px solid #ccc; padding:8px; text-align:center; }
 </style>
 </head>
-
 <body>
 <div class="container">
 <h2>Admin Control Panel
@@ -133,7 +133,6 @@ def logout():
     session.clear()
     return redirect("/")
 
-# ---------------- CLIENT CHECK ----------------
 @app.route("/check", methods=["POST"])
 def check():
     data = request.json
@@ -143,7 +142,4 @@ def check():
     }
     return jsonify({
         "status": company_status.get(data["company_id"], "blocked")
-    })
-
-# ---------------- RUN ----------------
-app = Flask(__name__)
+    }))
