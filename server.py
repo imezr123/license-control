@@ -9,9 +9,6 @@ import time
 app = Flask(__name__)
 app.secret_key = "SUPER_SECRET_KEY_123"   # change later
 
-# ---------------- ADMIN LOGIN ----------------
-ADMIN_USER = "admin"
-ADMIN_PASS = "1234"
 
 # ---------------- DATA ----------------
 company_status = {
