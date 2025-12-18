@@ -1,5 +1,6 @@
-
 import os
+from datetime import datetime
+import pytz
 
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
@@ -9,11 +10,9 @@ if not ADMIN_USERNAME or not ADMIN_PASSWORD:
     raise RuntimeError("Admin credentials not set in environment variables")
 
 
-from flask import Flask, request, jsonify, render_template_string, redirect, url_for, session
-import time
-
 app = Flask(__name__)
 app.secret_key = "SUPER_SECRET_KEY_123"   # change later
+
 
 
 # ---------------- DATA ----------------
@@ -109,7 +108,7 @@ def login():
         return redirect("/admin")
 
     if request.method == "POST":
-        if request.form["user"] == ADMIN_USERNAME and request.form["pass"] == ADMIN_PASSWORD:
+        if request.form["user"] == ADMIN_USER and request.form["pass"] == ADMIN_PASS:
             session["logged_in"] = True
             return redirect("/admin")
         return render_template_string(LOGIN_HTML, error="Wrong login")
@@ -145,9 +144,12 @@ def logout():
 @app.route("/check", methods=["POST"])
 def check():
     data = request.json
+    tz = pytz.timezone("Asia/Kolkata")  # change to your timezone
+    now = datetime.now(tz)
+    
     connected_pcs[data["pc_id"]] = {
         "company": data["company_id"],
-        "last_seen": time.strftime("%Y-%m-%d %H:%M:%S")
+        "last_seen": now.strftime("%d-%m-%y %H:%M:%S")
     }
     return jsonify({
         "status": company_status.get(data["company_id"], "blocked")
