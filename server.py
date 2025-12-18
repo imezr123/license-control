@@ -109,7 +109,7 @@ def login():
         return redirect("/admin")
 
     if request.method == "POST":
-        if request.form["user"] == ADMIN_USER and request.form["pass"] == ADMIN_PASS:
+        if request.form["user"] == ADMIN_USERNAME and request.form["pass"] == ADMIN_PASSWORD:
             session["logged_in"] = True
             return redirect("/admin")
         return render_template_string(LOGIN_HTML, error="Wrong login")
