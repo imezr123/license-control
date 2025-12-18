@@ -1,7 +1,13 @@
+
 import os
 
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+
+
+if not ADMIN_USERNAME or not ADMIN_PASSWORD:
+    raise RuntimeError("Admin credentials not set in environment variables")
+
 
 from flask import Flask, request, jsonify, render_template_string, redirect, url_for, session
 import time
