@@ -146,5 +146,4 @@ def check():
     })
 
 # ---------------- RUN ----------------
-if __name__ == "__main__":
-    app.run()
+app = Flask(__name__)
